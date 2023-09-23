@@ -19,14 +19,16 @@ from safety_gymnasium.bases.base_task import BaseTask
 
 
 class GoalLevel0(BaseTask):
-    """An agent must navigate to a goal."""
+    """An agent must navigate to a goal.
+        Modified so goal is always in the same place. """
 
     def __init__(self, config) -> None:
         super().__init__(config=config)
+        print("Using the APPaReL modified GoalLevel0.")
 
         self.placements_conf.extents = [-1, -1, 1, 1]
 
-        self._add_geoms(Goal(keepout=0.305))
+        self._add_geoms(Goal(keepout=0.305, locations=[(0.7,0.5)]))
 
         self.last_dist_goal = None
 

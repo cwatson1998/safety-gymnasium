@@ -123,7 +123,7 @@ class Builder(gymnasium.Env, gymnasium.utils.EzPickle):
             camera_name (str): Camera name to render.
         """
         gymnasium.utils.EzPickle.__init__(self, config=config)
-
+        print("Using the APPaReL builder, which can't end the episode.")
         self.task_id: str = task_id
         self.config: dict = config
         self._seed: int = None
@@ -191,6 +191,10 @@ class Builder(gymnasium.Env, gymnasium.utils.EzPickle):
 
     def step(self, action: np.ndarray) -> tuple[np.ndarray, float, float, bool, bool, dict]:
         """Take a step and return observation, reward, cost, terminated, truncated, info."""
+        # Begin Apparel:
+        self.terminated = False 
+        self.truncated = False
+        # End 
         assert not self.done, 'Environment must be reset before stepping.'
         action = np.array(action, copy=False)  # cast to ndarray
         if action.shape != self.action_space.shape:  # check action dimension
@@ -200,7 +204,7 @@ class Builder(gymnasium.Env, gymnasium.utils.EzPickle):
 
         exception = self.task.simulation_forward(action)
         if exception:
-            self.truncated = True
+            # self.truncated = True
 
             reward = self.task.reward_conf.reward_exception
             info['cost_exception'] = 1.0
@@ -216,33 +220,33 @@ class Builder(gymnasium.Env, gymnasium.utils.EzPickle):
             self.task.specific_step()
 
             # Goal processing
-            if self.task.goal_achieved:
-                info['goal_met'] = True
-                if self.task.mechanism_conf.continue_goal:
-                    # Update the internal layout
-                    # so we can correctly resample (given objects have moved)
-                    self.task.update_layout()
-                    # Try to build a new goal, end if we fail
-                    if self.task.mechanism_conf.terminate_resample_failure:
-                        try:
-                            self.task.update_world()
-                        except ResamplingError:
-                            # Normal end of episode
-                            self.terminated = True
-                    else:
-                        # Try to make a goal, which could raise a ResamplingError exception
-                        self.task.update_world()
-                else:
-                    self.terminated = True
+            # if self.task.goal_achieved:
+            #     info['goal_met'] = True
+            #     if self.task.mechanism_conf.continue_goal:
+            #         # Update the internal layout
+            #         # so we can correctly resample (given objects have moved)
+            #         self.task.update_layout()
+            #         # Try to build a new goal, end if we fail
+            #         if self.task.mechanism_conf.terminate_resample_failure:
+            #             try:
+            #                 self.task.update_world()
+            #             except ResamplingError:
+            #                 # Normal end of episode
+            #                 self.terminated = True
+            #         else:
+            #             # Try to make a goal, which could raise a ResamplingError exception
+            #             self.task.update_world()
+            #     else:
+            #         self.terminated = True
 
         # termination of death processing
         if not self.task.agent.is_alive():
             self.terminated = True
 
         # Timeout
-        self.steps += 1
-        if self.steps >= self.task.num_steps:
-            self.truncated = True  # Maximum number of steps in an episode reached
+        # self.steps += 1
+        # if self.steps >= self.task.num_steps:
+        #     self.truncated = True  # Maximum number of steps in an episode reached
 
         if self.render_parameters.mode == 'human':
             self.render()
