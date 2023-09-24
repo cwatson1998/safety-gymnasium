@@ -17,7 +17,7 @@
 import numpy as np
 
 from safety_gymnasium.assets.free_geoms import PushBox
-from safety_gymnasium.assets.geoms import Goal
+from safety_gymnasium.assets.geoms import Goal, Pillars, Hazards
 from safety_gymnasium.bases.base_task import BaseTask
 
 
@@ -27,10 +27,21 @@ class PushLevel0(BaseTask):
     def __init__(self, config) -> None:
         super().__init__(config=config)
 
-        self.placements_conf.extents = [-1, -1, 1, 1]
+        self.agent.placements = [
+            (
+                -0.1,
+                -1,
+                0.1,
+                -0.9,
+            ),
+        ]
+        self.agent.keepout = 0
 
-        self._add_geoms(Goal())
-        self._add_free_geoms(PushBox(null_dist=0))
+        self.placements_conf.extents = [-1.5, -1.5, 1.5, 1.5]
+        self._add_geoms(Goal(locations=[(0,1.5)]))
+        
+        # self._add_geoms(Pillars(num=1, is_constrained=False, locations=[(-2, 1)]))
+        self._add_free_geoms(PushBox(null_dist=0, locations=[(0,0)]))
 
         self.last_dist_box = None
         self.last_box_goal = None
@@ -38,30 +49,31 @@ class PushLevel0(BaseTask):
 
     def calculate_reward(self):
         """Determine reward depending on the agent and tasks."""
-        reward = 0.0
+        return 0
+        # reward = 0.0
 
-        # Distance from agent to box
-        dist_box = self.dist_box()
-        # pylint: disable-next=no-member
-        gate_dist_box_reward = self.last_dist_box > self.push_box.null_dist * self.push_box.size
-        reward += (
-            # pylint: disable-next=no-member
-            (self.last_dist_box - dist_box)
-            * self.push_box.reward_box_dist  # pylint: disable=no-member
-            * gate_dist_box_reward
-        )
-        self.last_dist_box = dist_box
+        # # Distance from agent to box
+        # dist_box = self.dist_box()
+        # # pylint: disable-next=no-member
+        # gate_dist_box_reward = self.last_dist_box > self.push_box.null_dist * self.push_box.size
+        # reward += (
+        #     # pylint: disable-next=no-member
+        #     (self.last_dist_box - dist_box)
+        #     * self.push_box.reward_box_dist  # pylint: disable=no-member
+        #     * gate_dist_box_reward
+        # )
+        # self.last_dist_box = dist_box
 
-        # Distance from box to goal
-        dist_box_goal = self.dist_box_goal()
-        # pylint: disable-next=no-member
-        reward += (self.last_box_goal - dist_box_goal) * self.push_box.reward_box_goal
-        self.last_box_goal = dist_box_goal
+        # # Distance from box to goal
+        # dist_box_goal = self.dist_box_goal()
+        # # pylint: disable-next=no-member
+        # reward += (self.last_box_goal - dist_box_goal) * self.push_box.reward_box_goal
+        # self.last_box_goal = dist_box_goal
 
-        if self.goal_achieved:
-            reward += self.goal.reward_goal  # pylint: disable=no-member
+        # if self.goal_achieved:
+        #     reward += self.goal.reward_goal  # pylint: disable=no-member
 
-        return reward
+        # return reward
 
     def specific_reset(self):
         pass
@@ -84,10 +96,12 @@ class PushLevel0(BaseTask):
     def dist_box_goal(self):
         """Return the distance from the box to the goal XY position."""
         # pylint: disable-next=no-member
-        return np.sqrt(np.sum(np.square(self.push_box.pos - self.goal.pos)))
+        return np.inf
+        # return np.sqrt(np.sum(np.square(self.push_box.pos - self.goal.pos)))
 
     @property
     def goal_achieved(self):
         """Whether the goal of task is achieved."""
         # pylint: disable-next=no-member
+        return False
         return self.dist_box_goal() <= self.goal.size

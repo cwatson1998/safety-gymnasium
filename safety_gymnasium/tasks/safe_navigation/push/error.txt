@@ -1,0 +1,87 @@
+logger.warn(
+Moviepy - Building video /var/folders/b_/xvrc2zbj08gg0g5dssmhnwmm0000gn/T/tmpjzmshbhewandb-media/d8ko7o3z.mp4.
+Moviepy - Writing video /var/folders/b_/xvrc2zbj08gg0g5dssmhnwmm0000gn/T/tmpjzmshbhewandb-media/d8ko7o3z.mp4
+
+Moviepy - Building video /var/folders/b_/xvrc2zbj08gg0g5dssmhnwmm0000gn/T/tmpjzmshbhewandb-media/d8ko7o3z.mp4.
+Moviepy - Writing video /var/folders/b_/xvrc2zbj08gg0g5dssmhnwmm0000gn/T/tmpjzmshbhewandb-media/d8ko7o3z.mp4
+
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/wandb/sdk/data_types/video.py", line 151, in encode
+    clip.write_videofile(filename, **kwargs)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 54, in requires_duration
+    return f(clip, *a, **k)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 135, in use_clip_fps_by_default
+    return f(clip, *new_a, **new_kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 22, in convert_masks_to_RGB
+    return f(clip, *a, **k)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/VideoClip.py", line 300, in write_videofile
+    ffmpeg_write_video(self, filename, fps, codec,
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/io/ffmpeg_writer.py", line 213, in ffmpeg_write_video
+    with FFMPEG_VideoWriter(filename, clip.size, fps, codec = codec,
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/io/ffmpeg_writer.py", line 88, in __init__
+    '-r', '%.02f' % fps,
+TypeError: must be real number, not NoneType
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/wandb/sdk/data_types/video.py", line 158, in encode
+    clip.write_videofile(filename, **kwargs)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 231, in fun
+    args, kw = fix(args, kw, sig)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 203, in fix
+    ba = sig.bind(*args, **kwargs)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/inspect.py", line 3186, in bind
+    return self._bind(args, kwargs)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/inspect.py", line 3175, in _bind
+    raise TypeError(
+TypeError: got an unexpected keyword argument 'progress_bar'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/Users/christopherwatson/Documents/ML/pdirl/train.py", line 69, in <module>
+    app.run(main)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/Users/christopherwatson/Documents/ML/pdirl/train.py", line 56, in main
+    path_as_edge_ids, path_as_vertices = abstract_reachability.learn_policy()
+  File "/Users/christopherwatson/Documents/ML/pdirl/pdirl/plan/reachability.py", line 615, in learn_policy
+    training_log = rl_trainer(edge_env, edge_id, aq_labeler,
+  File "/Users/christopherwatson/Documents/ML/pdirl/pdirl/rl/trainer.py", line 272, in rl_trainer
+    video = wandb.Video(video, fps=20, format="mp4")
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/wandb/sdk/data_types/video.py", line 128, in __init__
+    self.encode()
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/wandb/sdk/data_types/video.py", line 166, in encode
+    clip.write_videofile(filename, **kwargs)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 54, in requires_duration
+    return f(clip, *a, **k)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 135, in use_clip_fps_by_default
+    return f(clip, *new_a, **new_kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/decorator.py", line 232, in fun
+    return caller(func, *(extras + args), **kw)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/decorators.py", line 22, in convert_masks_to_RGB
+    return f(clip, *a, **k)
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/VideoClip.py", line 300, in write_videofile
+    ffmpeg_write_video(self, filename, fps, codec,
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/io/ffmpeg_writer.py", line 213, in ffmpeg_write_video
+    with FFMPEG_VideoWriter(filename, clip.size, fps, codec = codec,
+  File "/usr/local/anaconda3/envs/freshpdirl/lib/python3.10/site-packages/moviepy/video/io/ffmpeg_writer.py", line 88, in __init__
+    '-r', '%.02f' % fps,
+TypeError: must be real number, not NoneType

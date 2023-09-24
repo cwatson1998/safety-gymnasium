@@ -134,6 +134,7 @@ class Builder(gymnasium.Env, gymnasium.utils.EzPickle):
         self.cost: float = None
         self.terminated: bool = True
         self.truncated: bool = False
+        
 
         self.render_parameters = RenderConf(render_mode, width, height, camera_id, camera_name)
 

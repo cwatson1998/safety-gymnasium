@@ -16,6 +16,7 @@
 
 from safety_gymnasium.assets.geoms import Hazards, Pillars
 from safety_gymnasium.tasks.safe_navigation.push.push_level0 import PushLevel0
+import numpy as np
 
 
 class PushLevel1(PushLevel0):
@@ -26,7 +27,28 @@ class PushLevel1(PushLevel0):
 
     def __init__(self, config) -> None:
         super().__init__(config=config)
+        self.target1 = (-1.5,0)
+        self.target2 = (1.5,0)
 
         self.placements_conf.extents = [-1.5, -1.5, 1.5, 1.5]
+        self._add_geoms(Hazards(num=2, size=0.6, locations=[self.target1, self.target2]))
+        self._add_geoms(Pillars(num=5, is_constrained=False, keepout=0, locations=[(-0.4,0.8),(-0.7,0.8), (-1, 0.8), (-1.3,0.8), (-1.6, 0.8)]))
+        
+  
+    def dist_box_target1(self):
+        """Return the distance from the box to the left target (actually a hazard lives here) position."""
+        # pylint: disable-next=no-member
+        return np.sqrt(np.sum(np.square(self.push_box.pos[:2] - self.target1)))
+    
+    def dist_box_target2(self):
+        """Return the distance from the box to the left target (actually a hazard lives here) position."""
+        # pylint: disable-next=no-member
+        return np.sqrt(np.sum(np.square(self.push_box.pos[:2] - self.target2)))
 
-        self._add_geoms(Hazards(num=2, size=0.3), Pillars(num=1, is_constrained=False))
+    @property
+    def goal_achieved(self):
+        """Whether the goal of task is achieved."""
+        # pylint: disable-next=no-member
+        return False
+        # return self.dist_box_goal() <= self.goal.size
+
