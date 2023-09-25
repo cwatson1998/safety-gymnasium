@@ -24,6 +24,7 @@ class GoalLevel1(GoalLevel0):
 
     One vase is present in the scene, but the agent is not penalized for hitting it.
     """
+    goal_loc = (0,0)
 
     def __init__(self, config) -> None:
         super().__init__(config=config)

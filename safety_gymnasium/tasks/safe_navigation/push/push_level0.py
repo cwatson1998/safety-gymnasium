@@ -24,6 +24,8 @@ from safety_gymnasium.bases.base_task import BaseTask
 class PushLevel0(BaseTask):
     """An agent must push a box to a goal."""
 
+    goal_loc = (0,1.5)
+
     def __init__(self, config) -> None:
         super().__init__(config=config)
 
@@ -36,9 +38,10 @@ class PushLevel0(BaseTask):
             ),
         ]
         self.agent.keepout = 0
+        
 
         self.placements_conf.extents = [-1.5, -1.5, 1.5, 1.5]
-        self._add_geoms(Goal(locations=[(0,1.5)]))
+        self._add_geoms(Goal(locations=[self.goal_loc]))
         
         # self._add_geoms(Pillars(num=1, is_constrained=False, locations=[(-2, 1)]))
         self._add_free_geoms(PushBox(null_dist=0, locations=[(0,0)]))
